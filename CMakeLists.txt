@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(pgPainKiller)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpqxx -lpq")
@@ -10,5 +11,12 @@ file(GLOB_RECURSE SOURCE_FILES "./*.cpp")
 
 include_directories("include/")
 include_directories("models/")
-add_executable(pgPainKiller main.cpp utilities/databaseSettingsReader.cpp utilities/databaseSettingsReader.h)
-TARGET_LINK_LIBRARIES(pgPainKiller  ${PQXX_LIB} ${PQ_LIB})
+
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(references/json
+        ${CMAKE_CURRENT_BINARY_DIR}/nlohmann_json)
+
+add_executable(pgPainKiller src/main.cpp src/models/databaseSettings.h src/utilities/databaseSettingsReader.cpp src/utilities/databaseSettingsReader.h)
+TARGET_LINK_LIBRARIES(pgPainKiller
+        PUBLIC ${PQXX_LIB} ${PQ_LIB}
+        PRIVATE nlohmann_json)

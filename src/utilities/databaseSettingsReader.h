@@ -5,7 +5,7 @@
 #ifndef PGPAINKILLER_DATABASESETTINGSREADER_H
 #define PGPAINKILLER_DATABASESETTINGSREADER_H
 
-#include <databaseSettings.h>
+#include "../models/databaseSettings.h"
 
 DatabaseSettings readDatabaseSettings(int argc, char *argv[]);
 

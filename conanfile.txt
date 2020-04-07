@@ -1,0 +1,5 @@
+[requires]
+libpqxx/7.0.1
+
+[generators]
+cmake

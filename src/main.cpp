@@ -1,10 +1,11 @@
 #include <iostream>
 #include "utilities/databaseSettingsReader.h"
-
+#include "./database/databaseExtractor.h"
 
 int main(int argc, char *argv[]) {
     DatabaseSettings settings = readDatabaseSettings(argc, argv);
     std::cout << settings.toString();
+    std::cout <<"\n" << settings.toConnectionString();
 
 //    std::string host = result["host"].as<std::string>();
     /*pqxx::connection conn("user=postgres "

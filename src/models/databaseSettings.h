@@ -12,6 +12,11 @@ struct DatabaseSettings {
     std::string host, username, password, databaseName;
     int port;
 
+    DatabaseSettings(std::string host, std::string username, std::string password, std::string databaseName, int port)
+            : host(host), username(username), password(password), databaseName(databaseName), port(port) {
+
+    }
+
     std::string toString() {
         std::ostringstream strout;
         strout << "Host: " << host << "\nUsername: " << username << "\nPort: " << port << "\nPassword: " << password
@@ -25,13 +30,6 @@ struct DatabaseSettings {
                          << " dbname=" << databaseName;
 
         return connectionString.str();
-        /*pqxx::connection conn("user=postgres "
-                         "password=password "
-                         "host=localhost "
-                         "port=5432 "
-                         "dbname=pgpainkiller"); */
-
-
     }
 };
 

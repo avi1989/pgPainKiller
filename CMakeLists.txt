@@ -16,7 +16,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(references/json
         ${CMAKE_CURRENT_BINARY_DIR}/nlohmann_json)
 
-add_executable(pgPainKiller src/main.cpp src/models/databaseSettings.h src/utilities/databaseSettingsReader.cpp src/utilities/databaseSettingsReader.h src/database/databaseExtractor.cpp src/database/databaseExtractor.h src/database/queries.h)
+add_executable(pgPainKiller src/main.cpp src/models/databaseSettings.h src/utilities/databaseSettingsReader.cpp src/utilities/databaseSettingsReader.h src/database/databaseExtractor.cpp src/database/databaseExtractor.h src/database/queries.h src/models/databaseModel.h)
 TARGET_LINK_LIBRARIES(pgPainKiller
         PUBLIC ${PQXX_LIB} ${PQ_LIB}
         PRIVATE nlohmann_json)

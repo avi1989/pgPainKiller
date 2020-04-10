@@ -4,8 +4,16 @@
 
 int main(int argc, char *argv[]) {
     DatabaseSettings settings = readDatabaseSettings(argc, argv);
-    std::cout << settings.toString();
-    std::cout <<"\n" << settings.toConnectionString();
+
+    try {
+        pqxx::connection connection(settings.toConnectionString());
+        DatabaseExtractor extractor(&connection);
+        extractor.GetTables();
+    }
+    catch (pqxx::broken_connection &c) {
+        std::cerr << "Unable to connect to database" <<"\n " << c.what();
+        return 1;
+    }
 
 //    std::string host = result["host"].as<std::string>();
     /*pqxx::connection conn("user=postgres "

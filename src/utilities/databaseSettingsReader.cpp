@@ -2,8 +2,8 @@
 #include "cxxopts.h"
 #include <iostream>
 
-template <typename T>
-T getRequiredArgument(cxxopts::ParseResult *parseResult, cxxopts::Options *options, const std::string& argumentName) {
+template<typename T>
+T getRequiredArgument(cxxopts::ParseResult *parseResult, cxxopts::Options *options, const std::string &argumentName) {
     if (parseResult->count(argumentName) == 0) {
         std::cout << argumentName << " is required" << std::endl << options->help();
         exit(0);
@@ -30,12 +30,13 @@ DatabaseSettings readDatabaseSettings(int argc, char *argv[]) {
         exit(0);
     }
 
-    DatabaseSettings ret_val{};
-    ret_val.username = getRequiredArgument<std::string>(&result, &options, "username");
-    ret_val.host = getRequiredArgument<std::string>(&result, &options, "host");
-    ret_val.password = getRequiredArgument<std::string>(&result, &options, "password");
-    ret_val.port = result["port"].as<int>();
-    ret_val.databaseName = getRequiredArgument<std::string>(&result, &options, "dbname");
+    DatabaseSettings ret_val{
+            getRequiredArgument<std::string>(&result, &options, "host"),
+            getRequiredArgument<std::string>(&result, &options, "username"),
+            getRequiredArgument<std::string>(&result, &options, "password"),
+            getRequiredArgument<std::string>(&result, &options, "dbname"),
+            result["port"].as<int>(),
+    };
 
     return ret_val;
 }

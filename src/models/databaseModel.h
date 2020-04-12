@@ -7,6 +7,15 @@
 #include "../types/maybe.h"
 
 struct Table;
+struct Column;
+struct TableConstraint;
+struct PrimaryKeyConstraint;
+struct UniqueConstraint;
+struct CheckConstraint;
+struct ForeignKeyConstraint;
+struct Sequence;
+
+//<editor-fold desc="Table Types">
 
 enum ConstraintType {
     PrimaryKey = 1,
@@ -42,9 +51,7 @@ struct PrimaryKeyConstraint : TableConstraint {
     }
 
     ~PrimaryKeyConstraint() {
-        for (auto column : columns) {
-            delete column;
-        }
+        columns.clear();
     }
 
     std::vector<Column *> columns;
@@ -59,9 +66,7 @@ struct UniqueConstraint : TableConstraint {
     }
 
     ~UniqueConstraint() {
-        for (auto column : columns) {
-            delete column;
-        }
+        columns.clear();
     }
 
     std::vector<Column *> columns;
@@ -93,13 +98,8 @@ struct ForeignKeyConstraint : TableConstraint {
     }
 
     ~ForeignKeyConstraint() {
-        for (auto column : sourceColumns) {
-            delete column;
-        }
-
-        for (auto column : destinationColumns) {
-            delete column;
-        }
+        destinationColumns.clear();
+        sourceColumns.clear();
     }
 
     Table *destinationTable;
@@ -109,8 +109,8 @@ struct ForeignKeyConstraint : TableConstraint {
 
 struct Table {
     Table(const std::string &name, const std::string &schema, std::vector<Column *> &columns) : name(name),
-                                                                                               schema(schema),
-                                                                                               columns(columns) {
+                                                                                                schema(schema),
+                                                                                                columns(columns) {
 
     }
 
@@ -120,13 +120,34 @@ struct Table {
     std::vector<TableConstraint *> constraints;
 
     ~Table() {
-        for (auto column : columns) {
-            delete column;
-        }
+        columns.clear();
+        constraints.clear();
+    }
+};
+//</editor-fold>
 
-        for (auto constraint : constraints) {
-            delete constraint;
-        }
+struct Sequence {
+    Sequence(const string &sequenceSchema, const string &sequenceName, const string &dataType, int minValue,
+             int maxValue, int startValue, int cache) : sequenceSchema(sequenceSchema), sequenceName(sequenceName),
+                                                        dataType(dataType), minValue(minValue), maxValue(maxValue),
+                                                        startValue(startValue), cache(cache) {}
+
+    std::string sequenceSchema;
+    std::string sequenceName;
+    std::string dataType;
+    int minValue;
+    int maxValue;
+    int startValue;
+    int cache;
+};
+
+struct Database {
+    std::vector<Sequence *> sequences;
+    std::vector<Table *> tables;
+
+    ~Database() {
+        sequences.clear();
+        tables.clear();
     }
 };
 

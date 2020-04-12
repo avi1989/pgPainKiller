@@ -8,12 +8,26 @@
 class DatabaseExtractor {
 private:
     pqxx::work *m_tran;
+
     pqxx::result getAllColumns();
-    std::vector<Column*> getColumns(pqxx::result &allColumns, const std::string& tableSchema, const std::string& tableName);
-    void getTables();
+
+    std::vector<Column *>
+    getColumns(pqxx::result &allColumns, const std::string &tableSchema, const std::string &tableName);
+
+    std::vector<Table> getTables();
+
+    std::vector<Sequence *> getAllSequences();
+
+    pqxx::result getAllBasicConstraints();
+
+    std::vector<TableConstraint *>
+    getBasicConstraints(pqxx::result &allConstraints, const std::string &tableSchema, const std::string &tableName);
+
 public:
-    explicit DatabaseExtractor(pqxx::connection* connection);
+    explicit DatabaseExtractor(pqxx::connection *connection);
+
     ~DatabaseExtractor();
+
     void getDatabaseModel();
 };
 

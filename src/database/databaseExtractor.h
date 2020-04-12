@@ -9,6 +9,7 @@ class DatabaseExtractor {
 private:
     pqxx::work *m_tran;
     pqxx::result getAllColumns();
+    std::vector<Column*> getColumns(pqxx::result &allColumns, const std::string& tableSchema, const std::string& tableName);
     void getTables();
 public:
     explicit DatabaseExtractor(pqxx::connection* connection);

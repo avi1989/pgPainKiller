@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     try {
         pqxx::connection connection(settings.toConnectionString());
         DatabaseExtractor extractor(&connection);
-        extractor.GetTables();
+        extractor.getDatabaseModel();
     }
     catch (pqxx::broken_connection &c) {
         std::cerr << "Unable to connect to database" <<"\n " << c.what();

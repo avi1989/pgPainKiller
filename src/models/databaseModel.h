@@ -17,7 +17,9 @@ enum ConstraintType {
 };
 
 struct TableConstraint {
-    virtual ConstraintType getType() = 0;
+    virtual ConstraintType getType() {
+
+    }
 };
 
 struct Column {
@@ -32,7 +34,7 @@ struct PrimaryKeyConstraint : TableConstraint {
     explicit PrimaryKeyConstraint(std::vector<Column> &columns) : columns(columns) {
     }
 
-    inline ConstraintType getType() override {
+    ConstraintType getType() override {
         return ConstraintType::PrimaryKey;
     }
 
@@ -43,7 +45,7 @@ struct UniqueConstraint : TableConstraint {
     explicit UniqueConstraint(std::vector<Column> &columns) : columns(columns) {
     }
 
-    inline ConstraintType getType() override {
+    ConstraintType getType() override {
         return ConstraintType::Unique;
     }
 
@@ -54,7 +56,7 @@ struct CheckConstraint : TableConstraint {
     explicit CheckConstraint(std::string constraint) : constraint(std::move(constraint)) {
     }
 
-    inline ConstraintType getType() override {
+    ConstraintType getType() override {
         return ConstraintType::Check;
     }
 
@@ -67,7 +69,7 @@ struct ForeignKeyConstraint : TableConstraint {
                                                                destinationColumns(destinationColumns),
                                                                sourceColumns(sourceColumns) {}
 
-    inline ConstraintType getType() override {
+    ConstraintType getType() override {
         return ConstraintType::ForeignKey;
     }
 
@@ -77,6 +79,10 @@ struct ForeignKeyConstraint : TableConstraint {
 };
 
 struct Table {
+    Table(const string &name, const string &schema) : name(name), schema(schema) {
+
+    }
+
     string name;
     string schema;
     std::vector<Column> columns;

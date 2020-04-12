@@ -3,14 +3,17 @@
 
 #include <iostream>
 #include <pqxx/pqxx>
+#include "../models/databaseModel.h"
 
 class DatabaseExtractor {
 private:
-    pqxx::connection* m_connection;
+    pqxx::work *m_tran;
+    pqxx::result getAllColumns();
+    void getTables();
 public:
-    DatabaseExtractor(pqxx::connection* connection);
-
-    void GetTables();
+    explicit DatabaseExtractor(pqxx::connection* connection);
+    ~DatabaseExtractor();
+    void getDatabaseModel();
 };
 
 
